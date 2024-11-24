@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94390390995",
+    "project_id": "reelsmate-82558",
+    "storage_bucket": "reelsmate-82558.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94390390995:android:e17ec907f97a98bf4bc426",
+        "android_client_info": {
+          "package_name": "com.example.reelsmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEB0wrtcaOS4lNjX_uAhsLBYV51bh--yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
