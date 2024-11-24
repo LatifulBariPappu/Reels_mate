@@ -2,9 +2,11 @@ package com.example.reelsmate
 
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reelsmate.databinding.ActivitySignupBinding
-import java.util.regex.Pattern
+import com.google.firebase.auth.FirebaseAuth
 
 class SignupActivity : AppCompatActivity() {
 
@@ -19,12 +21,23 @@ class SignupActivity : AppCompatActivity() {
             signup()
         }
     }
+
+    fun setInProgress(inProgress : Boolean){
+        if(inProgress){
+            binding.progressBar.visibility = View.VISIBLE
+            binding.submitBtn.visibility = View.GONE
+        }else{
+            binding.progressBar.visibility = View.GONE
+            binding.submitBtn.visibility = View.VISIBLE
+        }
+    }
+
     fun signup(){
         val email = binding.emailInput.text.toString()
         val passsword = binding.passwordInput.text.toString()
         val confirmPassword = binding.confirmPasswordInput.text.toString()
 
-        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             binding.emailInput.setError("Email not valid")
             return
         }
@@ -32,13 +45,18 @@ class SignupActivity : AppCompatActivity() {
             binding.passwordInput.setError("Minimum 6 character")
             return
         }
-        if(confirmPassword.length<6){
+        if(passsword != confirmPassword){
             binding.confirmPasswordInput.setError("Password not matched")
             return
         }
-        signupwithFirebasse()
+        signupwithFirebasse(email,passsword)
     }
-    fun signupwithFirebasse(){
-
+    fun signupwithFirebasse(email : String, password : String){
+        setInProgress(true)
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+            email, password
+        ).addOnSuccessListener {
+            Toast.makeText(applicationContext,"Success", Toast.LENGTH_SHORT).show()
+        }
     }
 }
