@@ -18,6 +18,9 @@
         android:theme="@style/Theme.ReelsMate"
         tools:targetApi="31">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
