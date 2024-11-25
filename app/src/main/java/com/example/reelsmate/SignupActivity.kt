@@ -1,12 +1,17 @@
 package com.example.reelsmate
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reelsmate.databinding.ActivitySignupBinding
+import com.example.reelsmate.model.UserModel
+import com.example.reelsmate.util.UiUtil
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 class SignupActivity : AppCompatActivity() {
 
@@ -56,7 +61,20 @@ class SignupActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(
             email, password
         ).addOnSuccessListener {
-            Toast.makeText(applicationContext,"Success", Toast.LENGTH_SHORT).show()
+            it.user?.let {user->
+                val userModel = UserModel(user.uid,email,email.substringBefore("@"))
+                Firebase.firestore.collection("users")
+                    .document(user.uid)
+                    .set(userModel).addOnSuccessListener {
+                        UiUtil.showToast(applicationContext,"Account created successfully")
+                        setInProgress(false)
+                        startActivity(Intent(this,MainActivity::class.java))
+                        finish()
+                    }
+            }
+        }.addOnFailureListener {
+            UiUtil.showToast(applicationContext,it.localizedMessage?:"Something went wrong")
+            setInProgress(false)
         }
     }
 }
