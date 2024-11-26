@@ -18,6 +18,12 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        FirebaseAuth.getInstance().currentUser?.let {
+            //user is there logged in
+            startActivity(Intent(this,MainActivity::class.java))
+            finish()
+        }
+
         binding.submitBtn.setOnClickListener {
             login()
         }
@@ -51,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
             return
         }
         loginwithFirebasse(email,passsword)
-
     }
 
     fun loginwithFirebasse(email: String, passsword: String) {
